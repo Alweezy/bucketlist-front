@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class AuthenticateService {
 
-  url = 'https://buck3tlist.herokuapp.com/auth/register/'
+  url = 'https://buck3tlist.herokuapp.com/auth/'
 
   constructor(private http: Http) {}
 
