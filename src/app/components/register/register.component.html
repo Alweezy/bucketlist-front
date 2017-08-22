@@ -1,0 +1,43 @@
+<nav>
+  <div class="nav-wrapper blue-grey darken-1">
+    <a routerLink="/register" class="brand-logo">Bucket List App >> Register</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a routerLink="/login">Log In</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row bucketBox">
+    <form (ngSubmit)="registerUser()" #regForm="ngForm" class="col s12">
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <input id="name" type="text" autocomplete="off" required [(ngModel)]="name" name="name" class="form-control validate">
+          <label for="name">Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <input id="email" type="text" autocomplete="off" required [(ngModel)]="email" name="email" class="form-control validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <input id="password" type="password" autocomplete="off" required [(ngModel)]="password" name="password" class="form-control validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <div id="recaptcha_display"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn waves-effect waves-light blue-grey darken-1 col s3 offset-s3" (click)="redirectPage()" type="button" name="action"> << Login</button>
+        <button [disabled]="!regForm.form.valid" class="btn waves-effect waves-light teal darken-1 col s3 offset-s1" type="submit" name="action">Submit
+          >>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

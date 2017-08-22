@@ -1,10 +1,10 @@
-import { AppPage } from './app.po';
+import { BucketListPage } from './app.po';
 
 describe('bucketlist-front App', () => {
-  let page: AppPage;
+  let page: BucketListPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new BucketListPage();
   });
 
   it('should display welcome message', () => {
