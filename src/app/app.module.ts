@@ -7,11 +7,15 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { routing } from './app.routing';
+import {LoginComponent} from './login/login.components';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
+    LoginComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

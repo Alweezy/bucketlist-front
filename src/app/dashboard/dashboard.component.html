@@ -1,0 +1,210 @@
+<nav>
+  <div class="nav-wrapper #000000 black">
+    <a routerLink="/dashboard" class="brand-logo">Bucket List App >> Dashboard</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#usersettingsmodal">Account Settings</a></li>
+      <li><a href="javascript:void(0)">|</a></li>
+      <li><a (click)="logOutUser()" routerLink="/login">
+        <i class="material-icons" style="margin-top: -8px;">power_settings_new</i></a></li>
+    </ul>
+  </div>
+</nav>
+<!-- User Settings Modal -->
+<div id="usersettingsmodal" class="modal">
+  <div class="modal-content">
+    <h5>User Settings</h5>
+    <div id="usersettingscontent">
+      <form (ngSubmit)="editUser()" #UserForm="ngForm">
+        <div class="row">
+          <div class="form-group input-field col s12">
+            <input id="username" type="text" autocomplete="off" [(ngModel)]="username" name="username" class="form-control validate">
+            <label for="username">Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group input-field col s12">
+            <input id="useremail" type="text" autocomplete="off" [(ngModel)]="useremail" name="useremail" class="form-control validate">
+            <label for="useremail">Email</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group input-field col s4">
+            <input id="useroldpassword" type="password" autocomplete="off" [(ngModel)]="useroldpassword" name="useroldpassword" class="form-control validate">
+            <label for="useroldpassword">Old Password</label>
+          </div>
+          <div class="form-group input-field col s4">
+            <input id="userpassword" type="password" autocomplete="off" [(ngModel)]="userpassword" name="userpassword" class="form-control validate">
+            <label for="userpassword">Password</label>
+          </div>
+          <div class="form-group input-field col s4">
+            <input id="userconfirmpassword" type="password" autocomplete="off" [(ngModel)]="userconfirmpassword" name="userconfirmpassword" class="form-control validate">
+            <label for="userconfirmpassword">Confirm Password</label>
+          </div>
+        </div>
+        <input type="submit" id="search-submit" name="search-submit">
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a routerLink="/dashboard" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    <a routerLink="/dashboard" (click)="editUser()" class="waves-effect waves-green btn-flat">Update Details</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <div *ngIf="loader" class="progress">
+    <div class="indeterminate"></div>
+  </div>
+
+  <div *ngIf="BucketResponse">
+
+    <div class="row">
+      <form (ngSubmit)="newBucketList()" #BucketForm="ngForm">
+        <div class="form-group input-field col s4">
+          <input id="bucket" type="text" autocomplete="off" required [(ngModel)]="bucketlist" name="bucket" class="form-control validate">
+          <label for="bucket">New Bucket List (Press Enter to create)</label>
+        </div>
+        <div class="form-group input-field col s2">
+          <input type="submit" id="bucket-submit" value="Save" class="btn waves-effect" name="bucket-submit">
+        </div>
+      </form>
+      <form (ngSubmit)="searchBucketLists()" #searchForm="ngForm">
+        <div class="form-group input-field col s5">
+          <input id="search" type="text" (keyup)="searchBucketLists()" autocomplete="off" [(ngModel)]="search" name="search" class="form-control validate">
+          <label for="search">Search Bucket Lists</label>
+        </div>
+        <div class="form-group input-field col s1 ">
+          <input id="limit" type="text" (keyup)="searchBucketLists()" autocomplete="off" [(ngModel)]="limit" name="limit" class="form-control validate">
+          <label for="limit">Limit</label>
+        </div>
+        <input type="submit" id="search-submit" name="search-submit">
+      </form>
+
+    </div>
+
+    <ul class="pagination">
+      <li *ngIf="!BucketResponse.previous_page" class="btn disabled" ><a href="javascript: void(0)"> back </a></li>
+      <li *ngIf="BucketResponse.previous_page" (click)="getPaginatedBucketLists(BucketResponse.previous_page)" class="btn waves-effect" ><a href="javascript: void(0)"> back </a></li>
+      <li *ngIf="BucketResponse.next_page" (click)="getPaginatedBucketLists(BucketResponse.next_page)" class="btn waves-effect"><a href="javascript: void(0)"> next </a></li>
+      <li *ngIf="!BucketResponse.next_page" class="btn disabled"><a href="javascript: void(0)"> next </a></li>
+    </ul>
+
+    <div *ngIf="listBucketsLists">
+      <div class="row">
+        <div *ngFor="let key of keys" class="bucketsInFor">
+          <div class="col s6">
+            <div class="card #000000 black">
+              <div class="card-content white-text">
+                <a id="updateBucketLink" (click)="setId(key);viewBucket(key)" href="javascript:void(0)" class="btn btn-floating #ffab40">
+                  <i class="material-icons" style="">create</i>
+                </a>
+                <a id="deleteBucketLink" (click)="deleteBucket(key)" href="javascript:void(0)" class="btn btn-floating #ffab40">
+                  <i class="material-icons" style="">delete</i>
+                </a>
+                <span class="card-title">{{BucketResponse.bucketlists[key].name}}</span><hr />
+                <span class = "bId">Bucket List ID: </span>
+                <span class = "bId" id = "bucketListId{{key}}">{{BucketResponse.bucketlists[key].id}}</span>
+                <span>Created: {{BucketResponse.bucketlists[key].date_created}}</span><br />
+                <span>Number Of Items: {{BucketResponse.bucketlists[key].items.length}}</span><br /><hr />
+                <p><a (click)="setId(key)" href="#newitemmodal"> Add item</a></p>
+                <form (ngSubmit)="updateItems()" #ItemsForm="ngForm">
+                  <div *ngFor="let item of BucketResponse.bucketlists[key].items; let i=index;">
+                    <div class="row">
+                      <div id="item_number" class="form-group input-field col s1">
+                        {{ i + 1 }}
+                      </div>
+                      <div class="form-group input-field col s6">
+                        <input type="text" (keyup)="updateItems(key,item.id,'name',item.name,$event)" id="item-{{item.id}}" [(ngModel)]="item.name" name="item-{{item.id}}" class="form-control"/>
+                        <label for="item-{{item.id}}"></label>
+                      </div>
+                      <div *ngIf="item.done" class="form-group input-field col s2">
+                        <input type="checkbox" (click)="updateItems(key,item.id,'done',item.done,$event)" id="done-{{item.id}}" [(ngModel)]="item.done" name="done-{{item.id}}" checked="checked" class="form-control">
+                        <label for="done-{{item.id}}">Done?</label>
+                      </div>
+                      <div *ngIf="!item.done" class="form-group input-field col s2">
+                        <input type="checkbox" (click)="updateItems(key,item.id,'done',item.done,$event)" id="done-{{item.id}}" [(ngModel)]="item.done" name="done-{{item.id}}" class="form-control">
+                        <label for="done-{{item.id}}">Done?</label>
+                      </div>
+                      <div class="form-group input-field col s1">
+                        <a class="delete_item_button btn waves-effect waves-light #ffab40" (click)="deleteItems(key,i,item.id)">
+                          <i class="material-icons" style="">delete</i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div id = "item{{key}}data" class="itemdata">
+
+                  <!-- Update Bucket list Modal -->
+                  <div id="updatebucketlistmodal-{{key}}" class="modal">
+                    <div class="modal-content">
+                      <h4>Update Bucket List</h4>
+                      <div class="updatebucketlistcontent">
+                        <form (ngSubmit)="updateBucket($event, key, BucketResponse.bucketlists[key].name)" #UpdateBucketListForm="ngForm">
+                          <div class="row">
+                            <div class="form-group input-field col s7">
+                              <input id="bucketName-{{BucketResponse.bucketlists[key].id}}" type="text" autocomplete="off" required [(ngModel)]="BucketResponse.bucketlists[key].name" name="bucketName-{{BucketResponse.bucketlists[key].id}}" class="form-control validate">
+                              <label for="bucketName-{{BucketResponse.bucketlists[key].id}}">New Bucket List Name</label>
+                            </div>
+                            <div class="form-group input-field col s2">
+                              <input type="submit" id="update-bucket-submit" value="Save" class="btn waves-effect" name="update-bucket-submit">
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a routerLink="/dashboard" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                    </div>
+                  </div>
+
+                  <!-- View Items Modal -->
+                  <div id="viewitemsmodal{{key}}" class="modal">
+                    <div class="modal-content">
+                      <h4>View Items</h4>
+                      <div id="viewitemscontent">
+
+
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a routerLink="/dashboard" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- New Item Modal -->
+  <div id="newitemmodal" class="modal">
+    <div class="modal-content">
+      <h4>Add Item</h4>
+      <div id="newitemcontent">
+        <form (ngSubmit)="createItem()" #NewItemForm="ngForm">
+          <div class="row">
+            <div class="form-group input-field col s5">
+              <input id="itemName" type="text" autocomplete="off" required [(ngModel)]="itemName" name="itemName" class="form-control validate">
+              <label for="newItem">New Item Name (Press Enter to create)</label>
+            </div>
+            <div class="form-group input-field col s1">
+              <input type="submit" id="item-submit" value="Save" class="btn waves-effect" name="item-submit">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a routerLink="/dashboard" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+</div>

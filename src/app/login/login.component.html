@@ -1,0 +1,38 @@
+<nav>
+  <div class="nav-wrapper #000000 black">
+    <a routerLink="/login" class="brand-logo">Bucket List App >> Login</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a routerLink="/register">Register</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row bucketBox">
+    <form (ngSubmit)="loginUser()"  #loginForm="ngForm" class="col s12">
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <input id="username" type="text" autocomplete="off" required [(ngModel)]="username" name="username" class="form-control validate">
+          <label for="username">Username</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <input id="password" type="password" autocomplete="off" required [(ngModel)]="password" name="password" class="form-control validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s7 offset-s3">
+          <div id="recaptcha_display"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn waves-effect waves-light #000000 black col s3 offset-s3" (click)="redirectPage()" type="button" name="action"> << Create Account</button>
+        <button [disabled]="!loginForm.form.valid" class="btn waves-effect waves-light teal darken-1 col s3 offset-s1" type="submit" name="action">Submit
+          >>
+        </button>
+
+      </div>
+    </form>
+  </div>
+</div>

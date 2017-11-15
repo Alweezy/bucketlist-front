@@ -1,0 +1,96 @@
+nav {
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 20px;
+  background-color: #158F61;
+}
+
+.container{
+  width: 80%;
+}
+
+nav a{
+  font-size: 16px;
+  padding-left: 5px;
+}
+
+.bId{
+  display: none;
+}
+
+#bucket-submit{
+  font-size: 14px;
+  width: 80px;
+  height: 40px;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.row label, .row a{
+  color: #ffffff;
+}
+
+.card .modal h4, .card .modal input, .itemIdDisplay{
+  color: black;
+}
+#usersettingsmodal {height: 100% !important ; }
+#usersettingsmodal .row{ margin-bottom: 5px !important;}
+
+#search-submit{
+  display: none;
+}
+
+.card{
+  word-wrap: break-word;
+  background-color: #158F61;
+}
+
+hr{
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-title{
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.bucketsInFor .col .card{
+  min-height: 300px;
+  min-width: 60%;
+  margin-top: 20px;
+}
+
+.noItemsBox{
+  color: black;
+}
+
+#deleteBucketLink{
+  position: absolute;
+  margin-left: 85%;
+  margin-top: -47px;
+}
+
+#updateBucketLink{
+  position: absolute;
+  margin-left: 70%;
+  margin-top: -47px;
+}
+
+.pagination li{
+
+}
+#item_number {
+  padding-top: 11px;
+}
+
+.delete_item_button{
+  font-size: 14px;
+  width: 80px;
+  height: 40px;
+  padding: 0;
+  margin-left: 15px;
+}
